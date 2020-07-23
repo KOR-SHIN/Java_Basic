@@ -26,7 +26,7 @@ public class Exam_02 {
 		int x = 2;
 		int y = 5;
 		char c = 'A'; //A=65
-		
+		System.out.println("[3-2 정답]");
 		System.out.println(1+x << 33);
 /*		사칙연산은 대입연산보다 먼저 적용되며 x=2이기 때문에 3 << 33 이다.
 		x는 int형이기 때문에 32bit이다. 따라서 32번의 이동은 0번이동과 같으므로 3 << 1이다.
@@ -86,6 +86,7 @@ public class Exam_02 {
 		int num = 10;
 		String result = num == 0 ? "0" : num>0 ? "양수" : "음수"; 
 		//3항 연산자 중첩 => (조건식) ? true : (조건식) ? true : false
+		System.out.println("\n[3-3 정답]");
 		System.out.println(result);
 		
 		//[3-4]아래의 코드는 사과를 담는데 필요한 바구니의 수를 구하는 코드이다. 만약 사과가 123개이고 하나의 바구니에는 10개의
@@ -93,6 +94,7 @@ public class Exam_02 {
 		int apples = 123;
 		int bucket = 10;
 		int numOfBucket = (apples % bucket == 0) ? (apples/bucket) : (apples/bucket)+1;
+		System.out.println("\n[3-4 정답]");
 		System.out.println(numOfBucket);
 /*		
 		apples % bucket == 0 인 경우 : bucket의 크기가 10이기 때문에 사과의 갯수를 10으로 나누어 떨어진다는 것은 바구니의 갯수가 몫이된다.
@@ -103,6 +105,7 @@ public class Exam_02 {
 		//[3-5]아래의 코드는 변수 num의 값 중에서 백의 자리 이하를 버리는 코드이다. 만일 변수 num의 값이 '456'이라면 '400이 된다' 코드를 완성하여라.
 		int num2 = 456;
 		int result2 = (num2 / 100); // (정수 / 정수) 연산이기 때문에 결과값도 정수를 가진다.
+		System.out.println("\n[3-5 정답]");
 		System.out.println(result2 * 100);
 		
 		//[3-6]아래 코드의 문제점을 수정해서 실행 결과와 같은 결과를 얻도록 하시오.
@@ -132,7 +135,7 @@ public class Exam_02 {
 		방법2) f2, d의 타입만 맞추면 true이기 때문에 float f2 = 0.1f를 double f2 = 0.1로 변경하는 방법도 가능하다.
 		*/
 		boolean result3 = (d==f2);
-		
+		System.out.println("\n[3-6 정답]");
 		System.out.println("c=" + c2);
 		System.out.println("ch=" + ch);
 		System.out.println("f=" + f);
@@ -142,7 +145,26 @@ public class Exam_02 {
 		//[3-7] num의 값보다 크면서도 가장 가까운 10의 배수에서 변수 num의 값을 뺀 나머지를 구하는 코드를 완성하여라
 		int num3 = 24;
 		int result4 = ((num3/10)+1) * 10 - num3;
+		System.out.println("\n[3-7 정답]");
 		System.out.println("result4 = " + result4);
+		
+		//[3-8] 화씨를 섭씨로 변환하는 코드이다. 변환공식은 C=5/9 * (F - 32)이다.
+		//      변환 결과값은 소수점 셋째자리에서 반올림해야한다.
+		int fahrenheit = 100;
+		float formula = (float)5/9 * (fahrenheit - 32);
+		//공식을 사용해서 화씨 -> 섭씨 변환
+		
+		float celcius = (int)(formula*1000 + 0.5) / 1000f;
+		/*
+			소수점 셋째자리에서 반올림하기위해 formula*1000을 곱해 소수점 셋째자리까지 정수로 만들어준다
+			반올림은 0.5미만은 버리기 때문에 곱해진 수에 0.5를 더한다.
+			불필요한 소수점을 제거하기 위해 (int)로 캐스팅해준다.
+			정수로 변경된 소수점 부분을 다시 소수점으로 변경하기 위해 1000F로 나눠준다
+				(1000으로 나눌경우 정수/정수 이기때문에 소수점이 없어지기 때문에 반드시 1000F로 나눈다)
+		*/
+		System.out.println("\n[3-8 정답]");
+		System.out.println("Fahrenheit : " + fahrenheit);
+		System.out.println("Celcius : " + celcius);
 	}
 
 }
