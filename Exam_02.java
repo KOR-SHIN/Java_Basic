@@ -44,8 +44,7 @@ public class Exam_02 {
  		x=2로 초기화되어있다. 위에서 x를 비트연산했지만 출력문 안에서 실행했기 때문에 값이 바뀌지 않는다.
  		하지만 위의 단항연산자는 후위식으로 작성됐기 때문에 해당문장 다음에 x값이 증가한다.
  		따라서 x=2이다.
- 		단항연산자 다음은 사칙연산이므로 10 - 2 = 8이다.
- 		사칙연산 다음은 대입연산자이고 'y+=3'은 y=y+8과 같기때문에 y = 5+8 = 13이다 
+ 		사칙연산 y += 10은 y = y+10과 같다
 */
 		System.out.println(x+=2);
 /* 		'x+=2'는 'x = x+2'와 같은의미이다.
@@ -86,6 +85,7 @@ public class Exam_02 {
 		int num = 10;
 		String result = num == 0 ? "0" : num>0 ? "양수" : "음수"; 
 		//3항 연산자 중첩 => (조건식) ? true : (조건식) ? true : false
+		//				(조건식) ? true : (조건식) ? true : (조건식) ? true (false자리에 조건식을 넣어서 사용)
 		System.out.println("\n[3-3 정답]");
 		System.out.println(result);
 		
@@ -104,9 +104,9 @@ public class Exam_02 {
 */
 		//[3-5]아래의 코드는 변수 num의 값 중에서 백의 자리 이하를 버리는 코드이다. 만일 변수 num의 값이 '456'이라면 '400이 된다' 코드를 완성하여라.
 		int num2 = 456;
-		int result2 = (num2 / 100); // (정수 / 정수) 연산이기 때문에 결과값도 정수를 가진다.
+		int result2 = ((num2 / 100) * 100); // (정수 / 정수) 연산이기 때문에 결과값도 정수를 가진다.
 		System.out.println("\n[3-5 정답]");
-		System.out.println(result2 * 100);
+		System.out.println(result2);
 		
 		//[3-6]아래 코드의 문제점을 수정해서 실행 결과와 같은 결과를 얻도록 하시오.
 		byte b = 20;
@@ -122,12 +122,12 @@ public class Exam_02 {
 		float f = (float)3/2;
 		//기존식 float f = 3/2 => 3/2는 정수/정수이기때문에 결과값도 정수를 가진다 따라서 3과 2중 하나를 float으로 캐스팅한다.
 		
-		long l = 3000 * 3000 * 3000L;
+		long l = (3000L * 3000) * 3000;
 		//기존식 long l = 3000 * 3000 * 3000 => 정수의 기본형은 int이기 때문에 'L'을 쓰지않으면 int로 인식한다.
 		// 									  int->long은 자동형변환이 일어나기 때문에 생략가능하지만 'L'을 명시적으로 쓰는게 좋다.
-		
+		//		  							    캐스팅은 맨 앞에 해주는게 좋다. (앞 연산에서 overflow가 발생할 수 있기때문)
 		float f2 = 0.1f;
-		double d = 0.1f; 
+		double d = (float)0.1; 
 		/*
 		 기존식 double d = 0.1;은 문법상 오류가 없지만 boolean 아래에 d==f2값이 true가 나와야하기 때문에
 		f2와 d의 타입을 일치시키기 위해 명시적으로 f를 써서 double d = 0.1f로 수정
@@ -145,6 +145,8 @@ public class Exam_02 {
 		//[3-7] num의 값보다 크면서도 가장 가까운 10의 배수에서 변수 num의 값을 뺀 나머지를 구하는 코드를 완성하여라
 		int num3 = 24;
 		int result4 = ((num3/10)+1) * 10 - num3;
+		//sol2) result4 = (num3/10) == 0 ? ((num3+10)-num3) : (num3 + (10-num3%10))-num3;
+		//sol3) result4 = (10 - num3%10);
 		System.out.println("\n[3-7 정답]");
 		System.out.println("result4 = " + result4);
 		
@@ -154,9 +156,9 @@ public class Exam_02 {
 		float formula = (float)5/9 * (fahrenheit - 32);
 		//공식을 사용해서 화씨 -> 섭씨 변환
 		
-		float celcius = (int)(formula*1000 + 0.5) / 1000f;
+		float celcius = (int)(formula*100 + 0.5) / 100f;
 		/*
-			소수점 셋째자리에서 반올림하기위해 formula*1000을 곱해 소수점 셋째자리까지 정수로 만들어준다
+			소수점 셋째자리에서 반올림하기위해 formula*100을 곱해 소수점 둘째자리까지 정수로 만들어준다
 			반올림은 0.5미만은 버리기 때문에 곱해진 수에 0.5를 더한다.
 			불필요한 소수점을 제거하기 위해 (int)로 캐스팅해준다.
 			정수로 변경된 소수점 부분을 다시 소수점으로 변경하기 위해 1000F로 나눠준다
