@@ -191,7 +191,7 @@ public class Exam_04 {
 		System.out.println();
 		
 		for(int i=0; i<star.length; i++) {
-			for(int j=0; j<star[i].length; j++) { //꼭 다시풀어볼 것 (풀이방법이 비효율적임)
+			for(int j=0; j<star[i].length; j++) { //꼭 다시풀어볼 것 (모든 문제에 적용 안됨)
 					if(i<2) {
 						result[j][i+2] = star[i][j];
 					} 
