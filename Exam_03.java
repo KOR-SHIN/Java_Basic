@@ -103,25 +103,36 @@ public class Exam_03 {
 		
 		//[4-7]1 + (1+2) + (1+2+3) + ... + (1+2+3+...+10)의 결과를 계산하시오.
 		//계산과정 전부 출력되도록 만들어야함
-		int tmp = 0;
+				int tmp = 0;
 		int result2 = 0;
+		boolean flag = false; //처음 1에있는 괄호가 없기때문에 flag를 사용해서 구분해준다.
 		
 		System.out.println("\n[4-7]정답");
 		for(int i=1; i<11; i++) {
 			tmp += i;
 			result2 += tmp;
 			
-			System.out.print("(");
+			if(flag) {
+				System.out.print("(");
+			}
+			
 			for(int j=1; j<i+1; j++) {
 				System.out.print(j);
-				if(i>1 && j != i) {
+				if(j != i) { //i가 3이면 j는 1,2,3을 출력한다. 마지막 숫자에는 +기호가 나오지 않도록 한다.
 					System.out.print(" + ");
 				}
 			}
 			
-			System.out.print(")");
-			if(i==10){
-				continue;
+			if(flag) {
+				System.out.print(")");
+			}
+			flag = true;
+			
+			//i==10이 마지막 수행문을 실행하기 때문에 조건문 사용한다.
+			//i < 10이면 마지막 반복이 아니기 때문에 다음 연산을 더해주기 위해 '+'기호를 출력한다.
+			if(i==10){ 
+				System.out.println(" = " + result2); 
+				break;
 			} else {
 				System.out.print(" + ");
 			}
