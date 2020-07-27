@@ -102,15 +102,30 @@ public class Exam_03 {
 		System.out.println(start + " ~ " + end + "까지 정수의 곱 : " + result);
 		
 		//[4-7]1 + (1+2) + (1+2+3) + ... + (1+2+3+...+10)의 결과를 계산하시오.
+		//계산과정 전부 출력되도록 만들어야함
 		int tmp = 0;
 		int result2 = 0;
 		
+		System.out.println("\n[4-7]정답");
 		for(int i=1; i<11; i++) {
 			tmp += i;
 			result2 += tmp;
+			
+			System.out.print("(");
+			for(int j=1; j<i+1; j++) {
+				System.out.print(j);
+				if(i>1 && j != i) {
+					System.out.print(" + ");
+				}
+			}
+			
+			System.out.print(")");
+			if(i==10){
+				continue;
+			} else {
+				System.out.print(" + ");
+			}
 		}
-		System.out.println("\n[4-7]정답");
-		System.out.println("1 + (1+2) + (1+2+3) + ... + (1+2+3+...+10) = " + result2);
 		
 		//[4-8] 1 + (-2) + 3 + (-4) ...와 같은 식으로 계속 더했을때, 몇까지 더해야 총합이 100이상 되는지 구하시오
 		int sum2 = 0;
@@ -124,7 +139,7 @@ public class Exam_03 {
 			}
 			
 			if(sum2 >= 100) {
-				System.out.println("\n[4-8]정답");
+				System.out.println("\n\n[4-8]정답");
 				System.out.println(i + "일 때 총합이 100이 된다.");
 				break;
 			}
@@ -155,19 +170,79 @@ public class Exam_03 {
 		int low = 1;
 		int high = 1;
 		int result3 = 0;
-		int index = 2;
 		
-		while(true) {
+		System.out.println("\n[4-10] 정답");
+		for(int i=2; i<10; i++) {
 			result3 = (low+high);
 			low = high;
 			high = result3;
-			index++;
-			System.out.println(result3);
-			if(index == 10) {
-				System.out.println("\n[4-9] 정답");
-				System.out.println("피보나치 수열의 10번 쨰 값 : " + result3);
+			System.out.println("피보나치 수열의" + (i+1) + "번째 숫자 : " + result3);
+		}
+		
+		//[4-11] 문자열이 숫자인지 판별하는 프로그램을 완성하시오.
+		String value = "12o34";
+		char ch = ' ';
+		boolean isNumber = true;
+		
+		System.out.println("\n[4-11] 정답");
+		for(int i=0; i<value.length(); i++){
+			if(value.charAt(i) < '0' || value.charAt(i) > '9') {
+				isNumber = !isNumber;
 				break;
 			}
 		}
+		if(isNumber) {
+			System.out.println(value + "는 숫자입니다.");
+		} else {
+			System.out.println(value + "는 숫자가 아닙니다.");
+		}
+		
+		//[추가문제] 숫자가 팰린드롬인지 판단하는 프로그램을 출력하시오.
+		//팰린드롬 : 12321 처럼 앞에서읽는것과 뒤에서읽는것이 똑같은 숫자
+		System.out.println("\n[추가문제]");
+		System.out.println("양의 정수를 입력해주세요.");
+		input = sc.nextInt(); //사용자 입력숫자
+		int cnt = 1; //정수 자리수 카운터
+		temp = input; // temp를 사용하는 이유는 while문에서 자릿수 카운트용으로 사용하는 것.
+						  // input을 사용하게 되면 사용자가 입력한 값과 달라지기 때문에 값을 복사해서 사용한다.
+		int ex = 1;
+		
+		while(temp/10 != 0) { 
+			//cnt = 1인 이유는 temp가 1자리수만 남았을 때 (정수/정수)연산으로 인해 0이 나오기 때문에
+			//누락되는 자리수 1개를 미리 카운트 해준다.
+			//Math.log10()을 이용해서 구하는 방법도 있다.
+			cnt++;
+			temp /= 10;
+		}
+
+		for(int i=1; i<(cnt/2); i++) { 
+			/*
+			 좌우대칭을 확인하기 때문에 자리수의 절반만 확인한다.
+			자리수가 홀수인 경우에도 가운데 값은 상관없기 때문에 짝수, 홀수를 구분하지 않는다.
+			*/
+			ex *= 10; //input의 맨 뒷자리에 곱해줄 수를 구한다.
+		}
+		
+		temp = 0; //temp에 값을 저장하기 위해 초기화 한다.
+		for(int i=0; i<(cnt/2); i++) {
+			temp += ((input%10)*ex);
+			input /= 10; //사용한 입력값은 지워준다.
+			ex /= 10; //연산 후 10으로 나눠서 자리수를 줄인다.
+		}
+		
+		if(cnt % 2 != 0) {
+			//자리수가 홀수인지 짝수인지 확인하고 홀수인경우 마지막 한자리를 잘라준다.
+			input /= 10;
+		}
+		
+		if(temp == input && cnt > 1) {
+			System.out.println("(좌측, 우측) : (" + input + ", " + temp +")");
+			System.out.println("팰린드롬 입니다.");
+		} else {
+			System.out.println("(좌측, 우측) : (" + input + ", " + temp +")");
+			System.out.println("팰린드롬이 아닙니다.");
+		}
+
+		
 	}
 }
