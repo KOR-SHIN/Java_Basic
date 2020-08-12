@@ -16,7 +16,6 @@ public class ScoreProgram {
 		
 
 		//2. score 각방에 0~100사이의 임의의 정수의 값을 저장하여라.
-		System.out.println("\n<성적관리 프로그램>");
 		for(int name=0; name<score.length; name++) {
 			for(int subject=0; subject<score[name].length; subject++) {
 				score[name][subject] = (int)(Math.random()*101);
@@ -87,6 +86,7 @@ public class ScoreProgram {
 		
 		
 		//0. 출력해주세요.
+		System.out.println("\n<성적관리 프로그램>");
 		for(int sub=0; sub<subjects.length; sub++) {
 			//과목명 출력
 			System.out.print("\t" + subjects[sub]);
