@@ -183,6 +183,7 @@ public class ProductTest {
 					System.out.println("환불 상품명 : " + ((ProductVO)item).getProd_name() + 
 										"(" +((ProductVO)item).getProd_price() + "만원)");
 				}
+				break;
 
 			default:
 				System.out.println("======쇼핑을 종료합니다.======");
