@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- namespace속성 : 아래에서 작성한 SQL을 호출할 때 같이 사용된다. -->
+<!-- namespace를 사용하면 이름이 충돌되는 문제를 방지할 수 있다. -->
+<sqlMap namespace="noticeTest">
+	<!--
+	이 영역에 sql문에 맞는 태그를 사용하여 SQL문을 기술한다. 사용할 수 있는 기본적인 태그들 
+	<select> ~~~ </select>
+	<insert> ~~~ </insert> 
+	<update> ~~~ </update>
+	<delete> ~~~ </delete> 
+	
+	위 태그에 사용되는 속성들 
+	1) id : 해당 태그를 호출할 때 <sqlMap>태그의 namespace와 연결하여 사용하는 이름 (required) 
+	2) parameterClass : sql문에 사용될 데이터가 들어있는 객체를 지정 (보통은 VO클래스, 자바의 자료형이름 등이 사용된다) 
+						(typeAlias로 지정한 alias명을 사용할 수 있다) 
+	3) resultClass : select문을 실행한 결과를 담을 객체를 
+					 지정한다 (보통은 VO클래스, 자바의 자료형이름 등이 사용된다) 
+	-->
+
+	<!-- NoticeVO의 변수들과 DB의 column을 mapping하는 작업 -->
+	<resultMap class="noticeVO" id="notice">
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="boardTitle" column="BOARD_TITLE"/>
+		<result property="boardWriter" column="BOARD_WRITER"/>
+		<result property="boardDate" column="BOARD_DATE"/>
+		<result property="boardContent" column="BOARD_CONTENT"/>
+	</resultMap>
+	
+	<insert id="insertNotice">
+		INSERT INTO JDBC_BOARD(BOARD_NO, BOARD_TITLE, BOARD_WRITER, BOARD_DATE, BOARD_CONTENT)
+					    VALUES(BOARD_SEQ.NEXTVAL, #boardTitle#, #boardWriter#, SYSDATE, #boardContent#)
+	</insert>
+
+	<update id="updateNotice">
+		UPDATE JDBC_BOARD
+		   SET BOARD_TITLE = #boardTitle#,
+		       BOARD_CONTENT = #boardContent#
+		 WHERE BOARD_NO = #boardNo#
+	</update>
+
+	<delete id="deleteNotice" parameterClass="String">
+		DELETE FROM JDBC_BOARD 
+		      WHERE BOARD_NO = #boardNo#
+	</delete>
+
+	<select id="displayNoticeAll" resultClass="noticeVO" resultMap="notice">
+		SELECT * 
+		  FROM JDBC_BOARD
+	</select>
+
+	<select id="getNotice" parameterClass="String" resultClass="noticeVO" resultMap="notice">
+		SELECT *
+		  FROM JDBC_BOARD
+		 WHERE BOARD_NO = #boardNo#
+	</select>
+
+	<select id="searchNotice" resultClass="noticeVO" parameterClass="noticeVO" resultMap="notice">
+		
+		SELECT * FROM JDBC_BOARD 
+		
+		<!-- 하위 태그의 내용이 일치하는게 있으면 WHERE가 붙는다 -->
+		<dynamic prepend="WHERE">
+		
+			<!-- property 값이 null이 아니면 태그안의 query 수행 -->
+			<isNotNull property="boardNo">
+				<!-- property 값이 비어있지 않으면 태그안의 query 수행 -->
+				<isNotEmpty property="boardNo" prepend="AND">
+					BOARD_NO = #boardNo#
+				</isNotEmpty>
+			</isNotNull>
+			
+			<isNotNull property="boardTitle">
+				<isNotEmpty property="boardTitle" prepend="AND">
+					REPLACE(TRIM(BOARD_TITLE), ' ') = #boardTitle#
+				</isNotEmpty>
+			</isNotNull>
+				
+			<isNotNull property="boardWriter">
+				<isNotEmpty property="boardWriter" prepend="AND">
+					UPPER(BOARD_WRITER) = UPPER(#boardWriter#)
+				</isNotEmpty>
+			</isNotNull>
+			
+			<isNotNull property="boardDate">
+				<isNotEmpty property="boardDate" prepend="AND">
+					SUBSTR(BOARD_DATE, 1, 10) = TO_DATE(#boardDate#)
+				</isNotEmpty>
+			</isNotNull>
+				
+			<isNotNull property="boardContent">
+				<isNotEmpty property="boardContent" prepend="AND">
+					BOARD_CONTENT LIKE '%'||#boardContent#||'%'
+				</isNotEmpty>
+			</isNotNull>
+			
+		</dynamic>	
+
+	</select>
+</sqlMap>			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
