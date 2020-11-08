@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="board">
+	 <resultMap class="kr.or.ddit.vo.BoardVo" id="boardMap">
+	 	<result property="boardNo" column="BOARD_NO"/>
+	 	<result property="boardTitle" column="BOARD_TITLE"/>
+	 	<result property="boardWriter" column="BOARD_WRITER"/>
+	 	<result property="boardDate" column="BOARD_DATE"/>
+	 	<result property="boardContent" column="BOARD_CONTENT"/>
+	 	<result property="atchFileId" column="ATCH_FILE_ID"/>
+	 </resultMap>
+
+	<select id="getTotalCount" resultClass="int">
+		SELECT COUNT(*) 
+		  FROM JDBC_BOARD
+	</select>
+	
+	<select id="selectAllBoardByPaging" resultMap="boardMap">
+		SELECT AA.*
+  		  FROM (SELECT A.*, ROWNUM RNUM
+          		  FROM (SELECT *
+                  		  FROM JDBC_BOARD) A) AA
+ 		 WHERE RNUM BETWEEN #firstRecNo# AND #lastRecNo#
+	</select>
+	
+	<select id="selectBoard" parameterClass="String" resultMap="boardMap" resultClass="kr.or.ddit.vo.BoardVo">
+		SELECT * 
+		  FROM JDBC_BOARD
+		 WHERE BOARD_NO = #boardNo#
+	</select>
+	
+	<insert id="insertBoard" parameterClass="kr.or.ddit.vo.BoardVo">
+		INSERT INTO JDBC_BOARD(BOARD_NO, BOARD_TITLE, BOARD_WRITER, BOARD_DATE, BOARD_CONTENT, ATCH_FILE_ID)
+                        VALUES(BOARD_SEQ.NEXTVAL, #boardTitle#, #boardWriter#, SYSDATE, #boardContent#, NVL(#atchFileId#, 0))
+	</insert>
+	
+	<update id="updateBoard" parameterClass="kr.or.ddit.vo.BoardVo">
+		UPDATE JDBC_BOARD
+		   SET BOARD_TITLE = #boardTitle#
+		   	 , BOARD_DATE = SYSDATE
+		   	 , BOARD_CONTENT = #boardContent#
+		   	 , ATCH_FILE_ID = #atchFileId#
+		 WHERE BOARD_NO = #boardNo#
+	</update>
+	
+	<delete id="deleteBoard" parameterClass="String">
+		DELETE FROM JDBC_BOARD
+			  WHERE BOARD_NO = #boardNo#
+	</delete>
+</sqlMap>			
+
+
+
+
+
